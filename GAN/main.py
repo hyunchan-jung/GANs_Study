@@ -76,8 +76,8 @@ def run_epoch():
     generator.train()
     discriminator.train()
 
-    for imgs, labels in train_dl:
-        imgs, labels = imgs.view(-1, 28 * 28).to(device), labels.to(device)
+    for imgs, _ in train_dl:
+        imgs = imgs.view(-1, 28 * 28).to(device)
 
         z = torch.randn(batch_size, z_dim).to(device)
         p_real = discriminator(imgs)
@@ -107,8 +107,8 @@ def evaluate():
     discriminator.eval()
 
     size = float(test_dl.batch_size * len(test_dl))
-    for imgs, labels in test_dl:
-        imgs, labels = imgs.view(-1, 28 * 28).to(device), labels.to(device)
+    for imgs, _ in test_dl:
+        imgs = imgs.view(-1, 28 * 28).to(device)
         z = torch.randn(batch_size, z_dim).to(device)
         with torch.no_grad():
             p_real += discriminator(imgs).sum().item() / size
